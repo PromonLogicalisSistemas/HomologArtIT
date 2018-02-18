@@ -1,0 +1,112 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://rd.la.logicalis.com/web-service/apontamentos" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" name="WebServiceApontamentosService" targetNamespace="http://rd.la.logicalis.com/web-service/apontamentos">
+    <types>
+        <xsd:schema targetNamespace="http://rd.la.logicalis.com/web-service/apontamentos">
+            <xsd:element name="receberDivergencias">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="recebeDivergencia" type="tns:recebeDivergencia" minOccurs="0" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:complexType name="recebeDivergencia">
+                <xsd:sequence>
+                    <xsd:element name="registro" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="id_batida" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <xsd:element name="data" type="xsd:date" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="hora" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true" />
+                    <xsd:element name="codigo_observacao" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true" />
+                    <xsd:element name="descricao_observacao" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="receberDivergenciasResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="receberDivergenciasResult" type="xsd:boolean" />
+                        <xsd:element name="msgError" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="enviaApontamentos">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="data_inicio" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                        <xsd:element name="data_fim" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="enviaApontamentosResponses">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="enviaApontamentosResponse" type="tns:enviaApontamentosResponse" minOccurs="1" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:complexType name="enviaApontamentosResponse">
+                <xsd:sequence>
+                    <xsd:element name="nsr" type="xsd:int" minOccurs="0" maxOccurs="1" nillable="true" />
+                    <xsd:element name="registro" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="data" type="xsd:date" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="horario" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="true" />
+                    <xsd:element name="quantidade_horas" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="true" />
+                    <xsd:element name="tipo" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="justificativa_ajuste" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true" />
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </types>
+    <portType name="WebServiceApontamentosServicePort">
+        <operation name="receberDivergencias">
+            <documentation>Serviço para receber Apontamentos dos Relógios de Ponto</documentation>
+            <input message="tns:receberDivergenciasIn"/>
+            <output message="tns:receberDivergenciasOut"/>
+        </operation>
+
+        <operation name="enviaApontamentos">
+            <documentation>Serviço para enviar todos os Apontamentos do sistema</documentation>
+            <input message="tns:enviaApontamentosIn"/>
+            <output message="tns:enviaApontamentosOut"/>
+        </operation>
+    </portType>
+    <binding name="WebServiceApontamentosServiceBinding" type="tns:WebServiceApontamentosServicePort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="receberDivergencias">
+            <soap:operation soapAction="http://ts-dev.br.promonlogicalis.com/web-service/apontamentos#receberDivergencias"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="enviaApontamentos">
+            <soap:operation soapAction="http://ts-dev.br.promonlogicalis.com/web-service/apontamentos#enviaApontamentos"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="WebServiceApontamentosServiceService">
+        <port name="WebServiceApontamentosServicePort" binding="tns:WebServiceApontamentosServiceBinding">
+            <soap:address location="http://ts-dev.br.promonlogicalis.com/web-service/apontamentos"/>
+        </port>
+    </service>
+    <message name="receberDivergenciasIn">
+        <part name="parameters" element="tns:receberDivergencias"/>
+    </message>
+    <message name="receberDivergenciasOut">
+        <part name="parameters" element="tns:receberDivergenciasResponse"/>
+    </message>
+    <message name="enviaApontamentosIn">
+        <part name="parameters" element="tns:enviaApontamentos"/>
+    </message>
+    <message name="enviaApontamentosOut">
+        <part name="parameters" element="tns:enviaApontamentosResponses"/>
+    </message>
+</definitions>

@@ -1,0 +1,69 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:tns="http://promon-homolog.artit.com.br/web-service/arquivos-afd"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+             name="WebServiceAfdService"
+             targetNamespace="http://promon-homolog.artit.com.br/web-service/arquivos-afd">
+    <types>
+        <xsd:schema targetNamespace="http://promon-homolog.artit.com.br/web-service/arquivos-afd">
+            <xsd:element name="arquivosAfd">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="arquivoAfd" type="tns:arquivoAfd" minOccurs="1" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:complexType name="arquivoAfd">
+                <xsd:sequence>
+                    <xsd:element name="nsr"     type="xsd:int"    minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="data"    type="xsd:date"   minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="horario" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="pis"     type="xsd:string" minOccurs="1" maxOccurs="1" />
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:element name="arquivosAfdResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="arquivosAfdResult" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+        </xsd:schema>
+    </types>
+    <portType name="WebServiceAfdServicePort">
+        <operation name="arquivosAfd">
+            <documentation>Serviço para receber apontamentos do Relógio Ponto</documentation>
+            <input message="tns:arquivosAfdIn"/>
+            <output message="tns:arquivosAfdOut"/>
+        </operation>
+    </portType>
+    <binding name="WebServiceAfdServiceBinding" type="tns:WebServiceAfdServicePort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="arquivosAfd">
+            <soap:operation soapAction="http://promon-homolog.artit.com.br/web-service/arquivos-afd"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="WebServiceAfdServiceService">
+        <port name="WebServiceAfdServicePort" binding="tns:WebServiceAfdServiceBinding">
+            <soap:address location="http://promon-homolog.artit.com.br/web-service/arquivos-afd"/>
+        </port>
+    </service>
+    <message name="arquivosAfdIn">
+        <part name="parameters" element="tns:arquivosAfd"/>
+    </message>
+    <message name="arquivosAfdOut">
+        <part name="parameters" element="tns:arquivosAfdResponse"/>
+    </message>
+</definitions>
